@@ -16,7 +16,8 @@ const up = async (queryInterface: QueryInterface, Sequelize: any) => {
       username: {
         type: Sequelize.STRING,
         allowNull: true,
-        unique:true
+        unique:true,
+        defaultValue:null
       },
       email: {
         type: Sequelize.STRING,

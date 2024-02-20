@@ -15,6 +15,18 @@ async function runAllMigrations() {
         await up(database.getQueryInterface(), Sequelize);
     }
 
+    const shouldSeed = process.argv.includes('--seed');    
+    if (shouldSeed) {
+      const seederPath = path.join(__dirname, 'seeders');
+      const filesSeeders = fs.readdirSync(seederPath);
+      for (const file of filesSeeders) {
+        const seederFilePath = path.join(seederPath, file);
+        const {up} = await import(seederFilePath);
+        await up(database.getQueryInterface());
+      }
+      console.log('Seeder completado');
+    }
+
     console.log('Todas las migraciones se han ejecutado correctamente');
   } catch (error) {
     console.error('Error al ejecutar las migraciones:', error);

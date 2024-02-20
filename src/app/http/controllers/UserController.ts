@@ -1,7 +1,6 @@
-import { Sequelize, DataTypes } from 'sequelize';
-import { Request, Response, NextFunction } from 'express';
-import User from '../../models/user';
 
+import { Request, Response } from 'express';
+import User from '../../models/user';
 class UserController{
 
     me(req : Request, res : Response  ){

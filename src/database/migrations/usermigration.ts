@@ -1,35 +1,46 @@
-import { QueryInterface } from 'sequelize';
+import { QueryInterface, DataTypes } from 'sequelize';
 
-module.exports = {
-  up: async (queryInterface: QueryInterface, Sequelize: any) => {
+
+const up = async (queryInterface: QueryInterface, Sequelize: any) => {
     await queryInterface.createTable('users', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
+        allowNull:false
       },
       name: {
         type: Sequelize.STRING,
         allowNull: false
       },
+      username: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        unique:true
+      },
       email: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique:true
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       createdAt: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
         field:'created_at'
       },
       updatedAt: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
         field:'updated_at'
       }
     });
-  },
-
-  down: async (queryInterface: QueryInterface, Sequelize: any) => {
-    await queryInterface.dropTable('users');
   }
-};
+
+  
+const down = async (queryInterface: QueryInterface, Sequelize: any) => { await queryInterface.dropTable('users');}
+
+export {up, down}

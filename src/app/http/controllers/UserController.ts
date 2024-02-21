@@ -1,36 +1,26 @@
 
 import { Request, Response } from 'express';
-import User from '../../models/user';
+import jwt from 'jsonwebtoken';
+import config from '../../../config/app';
+
 class UserController{
 
     me(req : Request, res : Response  ){
-
-        return res.status(201).json({
-            success:true,
-            message:'me',
-            results:{
-            }
-        })
+      const authHeader = req.headers.authorization;
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+          return res.status(401).json({success:false, message: 'Unauthorized' });
+      }
+      const token = authHeader.slice(7);
+  
+      try {
+          const decodedToken = jwt.verify(token,`${config.jwtsecret}`);
+          res.json({success:true,results:decodedToken});
+      } catch (error) {
+          res.status(401).json({success:false, message: 'Invalid token' });
+      }
     }
 
-
-    async  getUserById(req: Request, res: Response) {
-        try {
-            //const {id}  = req.query;
-          const user = await User.findByPk('1');
-          if (!user) {
-            throw new Error('Usuario no encontrado');
-          }
-          return res.status(201).json({
-            success:true,
-            message:'me',
-            results: user
-        })
-        } catch (error) {
-          console.error('Error al consultar el usuario:', error);
-          throw error;
-        }
-      }
+    
 
 
 

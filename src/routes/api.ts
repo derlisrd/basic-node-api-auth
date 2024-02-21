@@ -1,17 +1,15 @@
-import { Router, Response, Request } from "express";
+import express from "express";
+import publicroutes from './public'
+import authroutes from './auth'
 import jwtMiddleware from "../app/http/middleware/jsonwebtoken";
-import UserController from "../app/http/controllers/UserController";
-import AuthController from "../app/http/controllers/AuthController";
-
-const routes = Router()
-
-const User = new UserController()
-const Auth = new AuthController()
 
 
 
-routes.get('/me',jwtMiddleware,User.me)
+const routes = express()
 
-routes.post('/auth/login', Auth.login)
+
+routes.use('/',publicroutes)
+
+routes.use('/in', jwtMiddleware, authroutes)
 
 export default routes;

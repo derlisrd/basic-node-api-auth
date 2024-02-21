@@ -2,12 +2,25 @@ import { Request, Response } from "express";
 import User from "../../models/user";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { body } from "express-validator";
+import config from "../../../config/app";
 
+export const registerValidationRules = [
+  body('name').notEmpty().withMessage('Name is required'),
+  body('email').isEmail().withMessage('Email is not valid'),
+  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+];
 
-class AuthController {
+export const loginValidationRules = [
+  body('email').isEmail().withMessage('Email is not valid'),
+  body('password').isLength({ min: 4 }).withMessage('Password must be at least 6 characters'),
+];
+
+export class AuthController {
+  
+
     async login(req: Request, res : Response){
         
-    
         const { email, password } = req.body;
         try {
           // Buscar al usuario en la base de datos
@@ -28,7 +41,7 @@ class AuthController {
           } 
       
           // Crear y devolver el JWT
-          const token = jwt.sign({ id: user.id, email: user.email }, 'your_secret_key', { expiresIn: '1h' });
+          const token = jwt.sign({ id: user.id, email: user.email },`${config.jwtsecret}`, { expiresIn: '1h' });
       
           res.json({ success:true,token });
         } catch (error) {
@@ -38,4 +51,4 @@ class AuthController {
     }
 }
 
-export default AuthController;
+

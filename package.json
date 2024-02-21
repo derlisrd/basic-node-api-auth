@@ -10,6 +10,7 @@
     "migrate": "ts-node ./src/database/run.ts",
     "migrate:seed": "ts-node ./src/database/run.ts --seed",
     "make:model": "ts-node ./src/app/scripts/make.model.ts",
+    "make:controller": "ts-node ./src/app/scripts/make.controller.ts",
     "make:migration": "ts-node ./src/app/scripts/make.migration.ts"
   },
   "keywords": [],
@@ -29,6 +30,7 @@
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "express": "^4.18.2",
+    "express-validator": "^7.0.1",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.9.1",
     "sequelize": "^6.37.1"

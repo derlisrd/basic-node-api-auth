@@ -3,7 +3,7 @@ import path from 'path';
 const migrationName = process.argv[2];
 
 if (!migrationName) {
-  console.error('Error: Debes proporcionar un nombre para el modelo.');
+  console.error('Error: Debes proporcionar un nombre para el migration.');
   process.exit(1);
 }
 

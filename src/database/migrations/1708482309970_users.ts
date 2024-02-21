@@ -23,16 +23,20 @@ const up = async (queryInterface: QueryInterface, Sequelize: any) => {
       email: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique:true
+        unique:true,
+        validate:{
+          isEmail: true
+        }
       },
       password: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: true,
-        field:'created_at'
+        field:'created_at',
+        defaultValue: new Date().toISOString()
       },
       updatedAt: {
         type: Sequelize.DATE,

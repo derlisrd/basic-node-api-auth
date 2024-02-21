@@ -1,4 +1,5 @@
-import { QueryInterface, DataTypes } from 'sequelize';
+
+import { QueryInterface } from 'sequelize';
 
 
 const up = async (queryInterface: QueryInterface, Sequelize: any) => {
@@ -25,7 +26,7 @@ const up = async (queryInterface: QueryInterface, Sequelize: any) => {
         unique:true
       },
       password: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
       },
       createdAt: {

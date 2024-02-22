@@ -1,5 +1,6 @@
 import express from "express";
 import api from './routes/api';
+import cors from 'cors';
 
 import xapikeyMiddleware from './app/http/middleware/xapikey';
 import logMiddleware from './app/http/middleware/log';
@@ -9,6 +10,8 @@ const app = express();
 //express json
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))
+
+app.use(cors())
 
 //middlewares
 app.use(logMiddleware)

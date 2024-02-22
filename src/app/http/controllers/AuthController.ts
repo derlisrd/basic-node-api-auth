@@ -9,6 +9,12 @@ export const registerValidationRules = [
   body('name').notEmpty().withMessage('Name is required'),
   body('email').isEmail().withMessage('Email is not valid'),
   body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+  body('passwordConfirmation').custom((value, { req }) => {
+    if (value !== req.body.password) {
+      throw new Error('Passwords do not match');
+    }
+    return true;
+  }),
 ];
 
 export const loginValidationRules = [
@@ -20,20 +26,13 @@ export class AuthController {
   
 
     async login(req: Request, res : Response){
-        
-        const { email, password } = req.body;
-        try {
-          // Buscar al usuario en la base de datos
-          const find = await User.findOne({ where: { email } });
-      
-          if (!find) {
+      try {
+          const { email, password } = req.body;
+          const findUser = await User.findOne({ where: { email } });
+          if (!findUser) {
             return res.status(404).json({ succes:false, message: 'Usuario no encontrado' });
           }
-          
-          const user = find.dataValues;
-          
-          
-          // Verificar la contraseña
+          const user = findUser.dataValues;
           const isPasswordValid = await bcrypt.compare(password, user.password);
       
           if (!isPasswordValid) {
@@ -49,6 +48,35 @@ export class AuthController {
           res.status(500).json({success:false, message: 'Error al autenticar usuario' });
         }
     }
+
+
+
+
+    async register(req: Request, res: Response) {
+      try {
+        const { name, email, password } = req.body;
+  
+        // Verificar si el usuario ya existe
+        const existingUser = await User.findOne({ where: { email } });
+        if (existingUser) {
+          return res.status(400).json({ success: false, message: 'Email already registered' });
+        }
+  
+        // Crear un nuevo usuario
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = await User.create({ name, email, password: hashedPassword });
+  
+        // Crear y devolver el JWT
+        const token = jwt.sign({ id: newUser.id, email: newUser.email }, `${config.jwtsecret}`, { expiresIn: '1h' });
+  
+        res.json({ success: true, token });
+      } catch (error) {
+        console.error('Error al registrar usuario:', error);
+        res.status(500).json({ success: false, message: 'Error al registrar usuario' });
+      }
+    }
+
+
 }
 
 

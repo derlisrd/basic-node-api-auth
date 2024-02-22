@@ -6,7 +6,8 @@ const validate = (req: Request, res: Response, next: any) => {
     if (errors.isEmpty()) {
         return next();
     }
-    return res.status(422).json({ errors: errors.array() });
+    const errorMessages = errors.array().map(error => error.msg);
+    return res.status(400).json({ success: false, message: errorMessages.join(', ') });
 };
 
 export default validate;

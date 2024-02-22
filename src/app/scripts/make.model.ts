@@ -9,28 +9,41 @@ if (!modelName) {
 }
 
 const modelTemplate = `
-import { DataTypes } from 'sequelize';
+import { Model,DataTypes } from 'sequelize';
 import sequelize from '../../config/database';
 
-const ${modelName} = sequelize.define('${modelName.toLowerCase()}s', {
-  id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    autoIncrement: true,
-    primaryKey: true,
-  },
-    // create more columns
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      field: 'created_at'
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      field: 'updated_at'
-    },
+class ${modelName} extends Model {
+  public id!: number;
 
-  });
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
+
+${modelName}.init(
+    {
+      id: {
+        type: DataTypes.INTEGER.UNSIGNED,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      //more here
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        field: 'created_at'
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        field: 'updated_at'
+      },
+    },
+    {
+      sequelize, // Instancia de Sequelize
+      tableName: '${modelName.toLowerCase()}s', // Nombre de la tabla en la base de datos
+    }
+  );
+
 
 export default ${modelName};
 `;

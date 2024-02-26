@@ -49,7 +49,7 @@ export default ${modelName};
 `;
 
 const modelsDir = path.join(__dirname, '../models');
-const modelFile = path.join(modelsDir, `${modelName.toLowerCase()}.model.ts`);
+const modelFile = path.join(modelsDir, `${modelName.toLowerCase()}.ts`);
 
 fs.writeFileSync(modelFile, modelTemplate);
 

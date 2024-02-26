@@ -9,7 +9,9 @@ const app = {
     db_name: process.env.DATABASE_NAME,
     db_host: process.env.DATABASE_HOST,
     db_pass: process.env.DATABASE_PASSWORD,
-    db_port: process.env.DATABASE_PORT
+    db_port: process.env.DATABASE_PORT,
+    app_debug: process.env.APP_DEBUG,
+    app_name: process.env.APP_NAME
 }
 
 export default app;

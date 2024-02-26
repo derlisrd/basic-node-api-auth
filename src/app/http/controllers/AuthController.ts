@@ -1,26 +1,13 @@
 import { Request, Response } from "express";
+import {Op} from 'sequelize'
 import User from "../../models/user";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { body } from "express-validator";
 import config from "../../../config/app";
 
-export const registerValidationRules = [
-  body('name').notEmpty().withMessage('Name is required'),
-  body('email').isEmail().withMessage('Email is not valid'),
-  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
-  body('passwordConfirmation').custom((value, { req }) => {
-    if (value !== req.body.password) {
-      throw new Error('Passwords do not match');
-    }
-    return true;
-  }),
-];
 
-export const loginValidationRules = [
-  body('email').isEmail().withMessage('Email is not valid'),
-  body('password').isLength({ min: 4 }).withMessage('Password must be at least 6 characters'),
-];
+
+
 
 export class AuthController {
   
@@ -28,7 +15,10 @@ export class AuthController {
     async login(req: Request, res : Response){
       try {
           const { email, password } = req.body;
-          const findUser = await User.findOne({ where: { email } });
+          const findUser = await User.findOne({ where: { [Op.or]: [
+            { email : email },
+            { username : email }
+          ] } });
           if (!findUser) {
             return res.status(404).json({ succes:false, message: 'Usuario no encontrado' });
           }

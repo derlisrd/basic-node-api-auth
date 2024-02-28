@@ -32,7 +32,7 @@ export class AuthController {
           // Crear y devolver el JWT
           const token = jwt.sign({ id: user.id, email: user.email },`${config.jwtsecret}`, { expiresIn: '1h' });
       
-          res.json({ success:true, results: {id: user.id, email: user.email, token} });
+          res.json({ success:true, results: {id: user.id, email: user.email, name:user.name, token} });
         } catch (error) {
           console.error('Error al autenticar usuario:', error);
           res.status(500).json({success:false, message: 'Error al autenticar usuario' });
@@ -59,7 +59,7 @@ export class AuthController {
         // Crear y devolver el JWT
         const token = jwt.sign({ id: newUser.id, email: newUser.email }, `${config.jwtsecret}`, { expiresIn: '1h' });
   
-        res.json({ success: true, results:{token, id:newUser.id, email: newUser.email} });
+        res.json({ success: true, results:{token, id:newUser.id, email: newUser.email, name: newUser.name} });
       } catch (error) {
         console.error('Error al registrar usuario:', error);
         res.status(500).json({ success: false, message: 'Error al registrar usuario' });

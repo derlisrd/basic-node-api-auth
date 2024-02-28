@@ -20,13 +20,13 @@ export class AuthController {
             { username : email }
           ] } });
           if (!findUser) {
-            return res.status(404).json({ succes:false, message: 'Usuario no encontrado' });
+            return res.status(404).json({ succes:false, message: 'Credenciales incorrectas' });
           }
           const user = findUser.dataValues;
           const isPasswordValid = await bcrypt.compare(password, user.password);
       
           if (!isPasswordValid) {
-            return res.status(401).json({success:false, message: 'Contraseña incorrecta' });
+            return res.status(401).json({success:false, message: 'Credenciales incorrectas' });
           } 
       
           // Crear y devolver el JWT

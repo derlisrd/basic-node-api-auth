@@ -8,7 +8,7 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "db:migrate": "ts-node ./src/database/run.ts",
-    "db:migrate--seed": "ts-node ./src/database/run.ts --seed",
+    "db:migrate --seed": "ts-node ./src/database/run.ts --seed",
     "make:model": "ts-node ./src/app/scripts/make.model.ts",
     "make:controller": "ts-node ./src/app/scripts/make.controller.ts",
     "make:migration": "ts-node ./src/app/scripts/make.migration.ts"

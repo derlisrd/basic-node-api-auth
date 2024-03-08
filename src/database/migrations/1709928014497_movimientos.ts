@@ -10,6 +10,11 @@ const up = async (queryInterface: QueryInterface, Sequelize: any) => {
         autoIncrement: true,
         allowNull:false
       },
+      categoria_id:{
+        type: Sequelize.INTEGER,
+        allowNull:true,
+        defaultValue:null
+      },
       user_id: {
         type: Sequelize.INTEGER,
         allowNull: false

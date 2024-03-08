@@ -49,7 +49,7 @@ export class AuthController {
         // Verificar si el usuario ya existe
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
-          return res.status(400).json({ success: false, message: 'Email already registered' });
+          return res.status(400).json({ success: false, message: 'Email already taken' });
         }
   
         // Crear un nuevo usuario

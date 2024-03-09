@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
+  "type":"module",
   "scripts": {
     "serve": "nodemon --exec ts-node ./index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    
     "migrate:fresh": "ts-node ./src/database/run.ts --fresh",
-    "migrate:run": "ts-node ./src/database/run.ts",
-    "migrate:seed": "ts-node ./src/database/run.ts --fresh --seed",
+    "migrate --seed": "ts-node ./src/database/run.ts --seed",
+    "migrate": "ts-node ./src/database/run.ts",
     "make:model": "ts-node ./src/app/scripts/make.model.ts",
     "make:controller": "ts-node ./src/app/scripts/make.controller.ts",
     "make:migration": "ts-node ./src/app/scripts/make.migration.ts"
@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "commander": "^12.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.18.2",

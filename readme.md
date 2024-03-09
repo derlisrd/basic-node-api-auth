@@ -1,0 +1,3 @@
+Comandos:
+
+Crea una migracion:
